@@ -1,0 +1,31 @@
+.cardHeader {
+  border: solid;
+  height: 35px;
+}
+
+.headerWinnie {
+  background: #8e6e95;
+}
+
+.headerBob {
+  background: #39a59c;
+}
+
+.headerThomas {
+  background: #344759;
+}
+
+.headerGeorge {
+  background: #e8741e;
+}
+
+.card {
+  margin: 25px;
+  align-content: stretch;
+  flex-grow: 1;
+}
+
+.container {
+  display: flex;
+  width: 100vw;
+}

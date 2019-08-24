@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const syncAndSeed = require('./db/seed');
-const { Cast, Match } = require('./db/models/index');
+const { Cast } = require('./db/models/index');
 
 const port = process.env.PORT || 3000;
 
@@ -23,17 +23,19 @@ app.get('/api/cast', (req, res, next) => {
 });
 
 app.put('/api/cast/:id', (req, res, next) => {
-  console.log(req.body);
   Cast.findByPk(req.params.id)
     .then(cast => cast.update(req.body))
     .then(cast => res.json(cast))
     .catch(next);
 });
 
-app.get('/api/matches', (req, res, next) => {
-  Match.findAll()
-    .then(match => res.send(match))
-    .catch(next);
+app.put('/api/cast', (req, res, next) => {
+  req.body.map(member => {
+    Cast.findByPk(member.id)
+      .then(castMember => castMember.update(member))
+      .then(cast => res.json(cast))
+      .catch(next);
+  });
 });
 
 app.use(express.static(path.join(__dirname, '..', 'public')));

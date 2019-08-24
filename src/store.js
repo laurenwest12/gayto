@@ -28,6 +28,14 @@ export const getCastThunk = () => {
   };
 };
 
+export const updateMatchesThunk = cast => {
+  return dispatch => {
+    axios
+      .put('/api/cast', cast)
+      .then(({ data }) => dispatch(getCastAction(data)));
+  };
+};
+
 const reducer = combineReducers({
   cast
 });

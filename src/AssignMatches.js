@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCastThunk } from './store';
+import { updateMatchesThunk } from './store';
 
 class AssignMatches extends Component {
   constructor() {
@@ -24,39 +24,50 @@ class AssignMatches extends Component {
     });
   };
 
+  handleSubmit = evt => {
+    console.log('submitted');
+    evt.preventDefault();
+    this.props.updateMatches(this.state.cast);
+  };
+
   render() {
     const { cast } = this.props;
     const matches = this.state.cast;
 
     return (
       <div className="container">
-        {cast &&
-          cast.map((member, index) => (
-            <div key={member.id}>
-              {member.name}
+        <form onSubmit={this.handleSubmit}>
+          {cast &&
+            cast.map((member, index) => (
+              <div key={member.id}>
+                {member.name}
 
-              <div>
-                <label>Match</label>
+                <div>
+                  <label>Match</label>
 
-                <select
-                  className="form-control"
-                  onChange={this.handleChange}
-                  name={index}
-                  index={index}
-                >
-                  {matches.length &&
-                    matches.map(
-                      match =>
-                        match.id !== member.id && (
-                          <option value={match.id} key={match.name}>
-                            {match.name}
-                          </option>
-                        )
-                    )}
-                </select>
+                  <select
+                    className="form-control"
+                    onChange={this.handleChange}
+                    name={index}
+                    index={index}
+                  >
+                    {matches.length &&
+                      matches.map(
+                        match =>
+                          match.id !== member.id && (
+                            <option value={match.id} key={match.name}>
+                              {match.name}
+                            </option>
+                          )
+                      )}
+                  </select>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </form>
       </div>
     );
   }
@@ -68,4 +79,13 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(AssignMatches);
+const mapDispatchToProps = dispatch => {
+  return {
+    updateMatches: cast => dispatch(updateMatchesThunk(cast))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AssignMatches);

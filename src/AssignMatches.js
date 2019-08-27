@@ -25,7 +25,6 @@ class AssignMatches extends Component {
   };
 
   handleSubmit = evt => {
-    console.log('submitted');
     evt.preventDefault();
     this.props.updateMatches(this.state.cast);
   };

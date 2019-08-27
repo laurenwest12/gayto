@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const syncAndSeed = require('./db/seed');
-const { Cast } = require('./db/models/index');
+const { Cast, Ceremony } = require('./db/models/index');
 
 const port = process.env.PORT || 3000;
 
@@ -15,6 +15,8 @@ app.get('/app.js', (req, res, next) =>
 app.get('/', (req, res, next) =>
   res.sendFile(path.join(__dirname, '..', 'index.html'))
 );
+
+//cast api
 
 app.get('/api/cast', (req, res, next) => {
   Cast.findAll()
@@ -36,6 +38,24 @@ app.put('/api/cast', (req, res, next) => {
       .then(cast => res.json(cast))
       .catch(next);
   });
+});
+
+//ceremony api
+
+app.get('/api/ceremonies', (req, res, next) => {
+  Ceremony.findAll()
+    .then(ceremony => res.send(ceremony))
+    .catch(next);
+});
+
+app.get('/api/ceremonies/:number', (req, res, next) => {
+  Ceremony.findAll({
+    where: {
+      number: req.params.number
+    }
+  })
+    .then(ceremony => res.send(ceremony))
+    .catch(next);
 });
 
 app.use(express.static(path.join(__dirname, '..', 'public')));

@@ -18,6 +18,9 @@ const Ceremony = db.define('ceremony', {
       min: 0,
       max: 10
     }
+  },
+  pairs: {
+    type: Sequelize.ARRAY(Sequelize.JSON)
   }
 });
 

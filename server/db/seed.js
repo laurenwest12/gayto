@@ -9,7 +9,10 @@ const syncAndSeed = () => {
       Cast.create({ name: '3' }),
       Cast.create({ name: '4' }),
       Cast.create({ name: '5' }),
-      Cast.create({ name: '6' })
+      Cast.create({ name: '6' }),
+      Ceremony.create({ number: 1, beams: 4 }),
+      Ceremony.create({ number: 2, beams: 3 }),
+      Ceremony.create({ number: 3, beams: 2 })
     ]).then(() => {});
   });
 };

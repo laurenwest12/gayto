@@ -4,6 +4,7 @@ import axios from 'axios';
 
 //action types
 const GET_CAST = 'GET_CAST';
+const GET_CEREMONY = 'GET_CEREMONY';
 
 //action creators
 const getCastAction = cast => ({
@@ -11,11 +12,25 @@ const getCastAction = cast => ({
   cast
 });
 
+const getCeremonyAction = ceremony => ({
+  type: GET_CEREMONY,
+  ceremony
+});
+
 //reducers
 const cast = (state = [], action) => {
   switch (action.type) {
     case GET_CAST:
       return action.cast;
+    default:
+      return state;
+  }
+};
+
+const ceremony = (state = [], action) => {
+  switch (action.type) {
+    case GET_CEREMONY:
+      return action.ceremony;
     default:
       return state;
   }

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { getCeremonyThunk } from './store';
 
 const shuffle = array => {
-  return array.sort(() => Math.random() - 0.5);
+  const copy = array.slice();
+  return copy.sort(() => Math.random() - 0.5);
 };
 
 class SingleCeremony extends Component {
@@ -11,18 +13,30 @@ class SingleCeremony extends Component {
     this.state = {
       number: null,
       pairs: [],
-      beams: null
+      beams: null,
+      cast: [],
+      currentPair: []
     };
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
       const { number } = this.props.match.params;
+      const { cast } = this.props;
+      const shuffled = shuffle(this.props.cast);
+      const current = shuffled[0];
+
       this.setState({
-        number: number
+        number,
+        cast,
+        currentPair: [current]
       });
     }
   }
+
+  handleChange = ({ target }, member) => {
+    this.setState({ currentPair: [this.state.currentPair[0], member] });
+  };
 
   handleSubmit = evt => {
     evt.preventDefault();
@@ -30,10 +44,28 @@ class SingleCeremony extends Component {
 
   render() {
     const { cast } = this.props;
-
+    console.log(this.state.currentPair);
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit}>
+          <label>
+            {this.state.currentPair.length && this.state.currentPair[0].name}
+          </label>
+          <label>
+            {this.state.currentPair[1] && this.state.currentPair[1].name}
+          </label>
+          <ul>
+            {cast.map(member => (
+              <li
+                key={member.key}
+                onClick={e => this.handleChange(e, member)}
+                member={member}
+                value={member.id}
+              >
+                {member.name}
+              </li>
+            ))}
+          </ul>
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
@@ -51,7 +83,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // updateMatches: cast => dispatch(updateMatchesThunk(cast))
+    getCeremony: number => dispatch(getCeremonyThunk(number))
   };
 };
 

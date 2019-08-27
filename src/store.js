@@ -51,8 +51,17 @@ export const updateMatchesThunk = cast => {
   };
 };
 
+export const getCeremonyThunk = number => {
+  return dispatch => {
+    axios
+      .get(`/api/ceremonies/${number}`)
+      .then(({ data }) => dispatch(getCeremonyAction(data)));
+  };
+};
+
 const reducer = combineReducers({
-  cast
+  cast,
+  ceremony
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));

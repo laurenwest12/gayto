@@ -28,6 +28,7 @@ class SingleCeremony extends Component {
     super();
     this.state = {
       number: null,
+      pairsLocked: 0,
       pairs: [],
       beams: null,
       pair1: {},
@@ -37,19 +38,18 @@ class SingleCeremony extends Component {
   }
 
   componentDidMount = async () => {
-    const pairs = await axios.get(
-      `/api/ceremonies/${this.props.match.params.number}/pairs`
-    );
+    const { number } = this.props.match.params;
+    const pairs = await axios.get(`/api/ceremonies/${number}/pairs`);
     this.setState({
       pairs: pairs.data,
-      number: this.props.match.params.number
+      number
     });
     if (pairs.data.length === 3) {
       const beams = this.state.pairs.filter(
         pair => pair.pair1.matchId === pair.pair2.id
       );
       this.setState({ locked: true, beams: beams.length });
-      this.props.postBeams(this.props.match.params.number, this.state);
+      this.props.postBeams(number, this.state);
     }
   };
 
@@ -74,6 +74,7 @@ class SingleCeremony extends Component {
   handleSubmit = evt => {
     evt.preventDefault();
     this.props.postPair(this.state.number, this.state);
+    window.location.reload();
   };
 
   render() {
@@ -82,36 +83,40 @@ class SingleCeremony extends Component {
 
     return (
       <div className="container">
-        <form onSubmit={this.handleSubmit}>
-          <label>{this.state.pair1 && this.state.pair1.name}</label>
-          <label>{this.state.pair2 && this.state.pair2.name}</label>
-          <ul>
-            {remaining.map(
-              member =>
-                member.id !== this.state.pair1.id && (
-                  <li
-                    key={member.key}
-                    onClick={e => this.handleChange(e, member)}
-                    member={member}
-                    value={member.id}
-                  >
-                    {member.name}
-                  </li>
-                )
-            )}
-          </ul>
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
+        {this.state.pairs.length < cast.length / 2 ? (
+          <form onSubmit={this.handleSubmit}>
+            <label>{this.state.pair1 && this.state.pair1.name}</label>
+            <label>{this.state.pair2 && this.state.pair2.name}</label>
+            <ul>
+              {remaining.map(
+                member =>
+                  member.id !== this.state.pair1.id && (
+                    <li
+                      key={member.key}
+                      onClick={e => this.handleChange(e, member)}
+                      member={member}
+                      value={member.id}
+                    >
+                      {member.name}
+                    </li>
+                  )
+              )}
+            </ul>
+            <button type="submit" className="btn btn-primary">
+              Lock In
+            </button>
+          </form>
+        ) : (
+          'Hello World'
+        )}
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ cast }) => {
+const mapStateToProps = state => {
   return {
-    cast
+    cast: state.cast
   };
 };
 

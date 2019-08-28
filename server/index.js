@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const syncAndSeed = require('./db/seed');
-const { Cast, Ceremony } = require('./db/models/index');
+const { Cast, Ceremony, Pair } = require('./db/models/index');
 
 const port = process.env.PORT || 3000;
 
@@ -55,6 +55,34 @@ app.get('/api/ceremonies/:number', (req, res, next) => {
     }
   })
     .then(ceremony => res.send(ceremony))
+    .catch(next);
+});
+
+//pairs
+app.get('/api/ceremonies/:number/pairs', (req, res, next) => {
+  Pair.findAll({
+    where: {
+      ceremonyId: req.params.number
+    }
+  })
+    .then(pair => res.send(pair))
+    .catch(next);
+});
+
+app.post(`/api/ceremonies/:number/pairs`, (req, res, next) => {
+  const { number, pair1, pair2 } = req.body;
+  let match;
+
+  pair1.matchId === pair2.id ? (match = true) : (match = false);
+
+  Pair.create({
+    number,
+    pair1,
+    pair2,
+    match,
+    ceremonyId: number
+  })
+    .then(pair => res.send(pair))
     .catch(next);
 });
 

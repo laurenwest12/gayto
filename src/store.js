@@ -82,11 +82,19 @@ export const getPairsThunk = number => {
   };
 };
 
-export const postPairsThunk = (number, pair) => {
+export const postPairsThunk = (number, pairs) => {
   return dispatch => {
     axios
-      .post(`/api/ceremonies/${number}/pairs`, pair)
+      .post(`/api/ceremonies/${number}/pairs`, pairs)
       .then(({ data }) => dispatch(getPairsAction(data)));
+  };
+};
+
+export const postBeamsThunk = (number, beams) => {
+  return dispatch => {
+    axios
+      .put(`/api/ceremonies/${number}`, beams)
+      .then(({ data }) => dispatch(getCeremonyAction(data)));
   };
 };
 

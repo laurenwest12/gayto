@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCeremonyThunk, getCastThunk, postPairsThunk } from './store';
+import {
+  getCeremonyThunk,
+  getCastThunk,
+  postPairsThunk,
+  postBeamsThunk
+} from './store';
 import axios from 'axios';
 
 const shuffle = array => {
@@ -26,7 +31,8 @@ class SingleCeremony extends Component {
       pairs: [],
       beams: null,
       pair1: {},
-      pair2: {}
+      pair2: {},
+      locked: false
     };
   }
 
@@ -34,7 +40,17 @@ class SingleCeremony extends Component {
     const pairs = await axios.get(
       `/api/ceremonies/${this.props.match.params.number}/pairs`
     );
-    this.setState({ pairs: pairs.data });
+    this.setState({
+      pairs: pairs.data,
+      number: this.props.match.params.number
+    });
+    if (pairs.data.length === 3) {
+      const beams = this.state.pairs.filter(
+        pair => pair.pair1.matchId === pair.pair2.id
+      );
+      this.setState({ locked: true, beams: beams.length });
+      this.props.postBeams(this.props.match.params.number, this.state);
+    }
   };
 
   componentDidUpdate(prevProps) {
@@ -103,7 +119,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getCeremony: number => dispatch(getCeremonyThunk(number)),
     getCast: () => dispatch(getCastThunk()),
-    postPair: (number, pair) => dispatch(postPairsThunk(number, pair))
+    postPair: (number, pair) => dispatch(postPairsThunk(number, pair)),
+    postBeams: (number, beams) => dispatch(postBeamsThunk(number, beams))
   };
 };
 

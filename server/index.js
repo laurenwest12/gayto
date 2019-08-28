@@ -20,7 +20,7 @@ app.get('/', (req, res, next) =>
 
 app.get('/api/cast', (req, res, next) => {
   Cast.findAll()
-    .then(cast => res.send(cast))
+    .then(cast => res.json(cast))
     .catch(next);
 });
 
@@ -44,7 +44,7 @@ app.put('/api/cast', (req, res, next) => {
 
 app.get('/api/ceremonies', (req, res, next) => {
   Ceremony.findAll()
-    .then(ceremony => res.send(ceremony))
+    .then(ceremony => res.json(ceremony))
     .catch(next);
 });
 
@@ -54,7 +54,14 @@ app.get('/api/ceremonies/:number', (req, res, next) => {
       number: req.params.number
     }
   })
-    .then(ceremony => res.send(ceremony))
+    .then(ceremony => res.json(ceremony))
+    .catch(next);
+});
+
+app.put(`/api/ceremonies/:number`, (req, res, next) => {
+  Ceremony.findByPk(req.params.number)
+    .then(ceremony => ceremony.update(req.body))
+    .then(ceremony => res.json(ceremony))
     .catch(next);
 });
 
@@ -65,7 +72,7 @@ app.get('/api/ceremonies/:number/pairs', (req, res, next) => {
       ceremonyId: req.params.number
     }
   })
-    .then(pair => res.send(pair))
+    .then(pair => res.json(pair))
     .catch(next);
 });
 
@@ -82,7 +89,7 @@ app.post(`/api/ceremonies/:number/pairs`, (req, res, next) => {
     match,
     ceremonyId: number
   })
-    .then(pair => res.send(pair))
+    .then(pair => res.json(pair))
     .catch(next);
 });
 

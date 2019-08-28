@@ -50,6 +50,7 @@ class AssignMatches extends Component {
                     name={index}
                     index={index}
                   >
+                    <option value={null}>Select a perfect match</option>
                     {matches.length &&
                       matches.map(
                         match =>

@@ -39,14 +39,19 @@ class SingleCeremony extends Component {
 
   componentDidMount = async () => {
     const { number } = this.props.match.params;
-    const pairs = await axios.get(`/api/ceremonies/${number}/pairs`);
-
-    this.setState({
-      pairs: pairs.data,
-      number
+    axios.get(`/api/ceremonies/${number}/pairs`).then(pairs => {
+      this.setState({
+        pairs: pairs.data,
+        number
+      });
     });
 
-    if (pairs.data.length === 8) {
+    // this.setState({
+    //   pairs: pairs.data,
+    //   number
+    // });
+
+    if (this.state.pairs.length === 8) {
       const beams = this.state.pairs.filter(
         pair => pair.pair1.matchId === pair.pair2.id
       );

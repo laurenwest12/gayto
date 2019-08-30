@@ -61,7 +61,9 @@ class SingleCeremony extends Component {
       const remaining = findRemaining(this.props.cast, this.state.pairs);
       const shuffled = shuffle(remaining);
       const current = shuffled[0];
-
+      console.log(this.state);
+      console.log(this.props.cast);
+      console.log(remaining);
       this.setState({
         number,
         pair1: current

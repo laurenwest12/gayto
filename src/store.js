@@ -128,10 +128,6 @@ export const postTruthBoothThunk = (number, pair1, pair2, match) => {
     pair2,
     match
   };
-  const tbObj = {
-    number,
-    match
-  };
   return dispatch => {
     axios
       .post(`/api/truthbooths/${number}/pairs`, obj)

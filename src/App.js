@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import AssignMatches from './AssignMatches';
 import AllCeremonies from './AllCeremonies';
 import SingleCeremony from './SingleCeremony';
+import AllTruthBooths from './AllTruthBooths';
+import SingleTruthBooth from './SingleTruthBooth';
 
 import { getCastThunk } from './store';
 
@@ -24,6 +26,8 @@ class App extends Component {
         <Route exact path="/matches" component={AssignMatches} />
         <Route exact path="/ceremonies" component={AllCeremonies} />
         <Route exact path="/ceremonies/:number" component={SingleCeremony} />
+        <Route exact path="/truthbooths" component={AllTruthBooths} />
+        <Route exact path="/truthbooths/:number" component={SingleTruthBooth} />
       </HashRouter>
     );
   }

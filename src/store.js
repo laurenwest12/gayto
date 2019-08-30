@@ -6,6 +6,7 @@ import axios from 'axios';
 const GET_CAST = 'GET_CAST';
 const GET_CEREMONY = 'GET_CEREMONY';
 const GET_PAIRS = 'GET_PAIRS';
+const GET_TRUTHBOOTH = 'GET_TRUTHBOOTH';
 
 //action creators
 const getCastAction = cast => ({
@@ -21,6 +22,11 @@ const getCeremonyAction = ceremony => ({
 const getPairsAction = pairs => ({
   type: GET_PAIRS,
   pairs
+});
+
+const getTruthBoothAction = truthBooth => ({
+  type: GET_TRUTHBOOTH,
+  truthBooth
 });
 
 //reducers
@@ -46,6 +52,15 @@ const pairs = (state = [], action) => {
   switch (action.pairs) {
     case GET_PAIRS:
       return action.pairs;
+    default:
+      return state;
+  }
+};
+
+const truthBooth = (state = {}, action) => {
+  switch (action.truthBooth) {
+    case GET_TRUTHBOOTH:
+      return action.truthBooth;
     default:
       return state;
   }
@@ -98,10 +113,38 @@ export const postBeamsThunk = (number, beams) => {
   };
 };
 
+export const getTruthBoothThunk = number => {
+  return dispatch => {
+    axios
+      .get(`/api/truthbooths/${number}`)
+      .then(({ data }) => dispatch(getTruthBoothAction(data)));
+  };
+};
+
+export const postTruthBoothThunk = (number, pair1, pair2, match) => {
+  const obj = {
+    number,
+    pair1,
+    pair2,
+    match
+  };
+  const tbObj = {
+    number,
+    match
+  };
+  return dispatch => {
+    axios
+      .post(`/api/truthbooths/${number}/pairs`, obj)
+      .then(({ data }) => dispatch(getTruthBoothAction(data)));
+    axios.put(`/api/truthbooths/${number}`, tbObj);
+  };
+};
+
 const reducer = combineReducers({
   cast,
   ceremony,
-  pairs
+  pairs,
+  truthBooth
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));

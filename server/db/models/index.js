@@ -8,6 +8,9 @@ Cast.hasOne(Cast, { as: 'match', foreignKey: 'matchId' });
 Ceremony.hasMany(Pair);
 Pair.belongsTo(Ceremony);
 
+Pair.belongsTo(TruthBooth);
+TruthBooth.hasOne(Pair);
+
 module.exports = {
   Cast,
   Ceremony,

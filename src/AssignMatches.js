@@ -42,8 +42,6 @@ class AssignMatches extends Component {
                 {member.name}
 
                 <div>
-                  <label>Match</label>
-
                   <select
                     className="form-control"
                     onChange={this.handleChange}

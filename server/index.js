@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const syncAndSeed = require('./db/seed');
-const { Cast, Ceremony, Pair } = require('./db/models/index');
+const { Cast, Ceremony, Pair, TruthBooth } = require('./db/models/index');
 
 const port = process.env.PORT || 3000;
 
@@ -92,6 +92,47 @@ app.post(`/api/ceremonies/:number/pairs`, (req, res, next) => {
     .then(pair => res.json(pair))
     .catch(next);
 });
+
+//truth booth
+
+app.get(`/api/truthbooths/:number`, (req, res, next) => {
+  TruthBooth.findByPk(req.params.number)
+    .then(tb => res.json(tb))
+    .catch(next);
+});
+
+app.get(`/api/truthbooths/:number/pairs`, (req, res, next) => {
+  const { number, pair1, pair2 } = req.body;
+  Pair.findAll({
+    where: {
+      truthBoothId: req.params.number
+    }
+  })
+    .then(pair => res.json(pair))
+    .catch(next);
+});
+
+app.post(`/api/truthbooths/:number/pairs`, (req, res, next) => {
+  const { number, pair1, pair2, match } = req.body;
+  Pair.create({
+    pair1,
+    pair2,
+    truthBoothId: number,
+    match
+  })
+    .then(pair => res.json(pair))
+    .catch(next);
+});
+
+app.put(`/api/truthbooths/:number/`, (req, res, next) => {
+  const { number, match } = req.body;
+  TruthBooth.findByPk(number)
+    .then(tb => tb.update({ match }))
+    .then(tb => res.json(tb))
+    .catch(next);
+});
+
+//truth booths
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 

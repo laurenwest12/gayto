@@ -125,9 +125,9 @@ app.post(`/api/truthbooths/:number/pairs`, (req, res, next) => {
 });
 
 app.put(`/api/truthbooths/:number/`, (req, res, next) => {
-  const { number, match } = req.body;
+  const { number, match, pair1, pair2 } = req.body;
   TruthBooth.findByPk(number)
-    .then(tb => tb.update({ match }))
+    .then(tb => tb.update({ match, pair1, pair2 }))
     .then(tb => res.json(tb))
     .catch(next);
 });

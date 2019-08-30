@@ -33,22 +33,24 @@ class SingleCeremony extends Component {
       beams: null,
       pair1: {},
       pair2: {},
-      locked: false
+      view: 'matchup'
     };
   }
 
   componentDidMount = async () => {
     const { number } = this.props.match.params;
     const pairs = await axios.get(`/api/ceremonies/${number}/pairs`);
+
     this.setState({
       pairs: pairs.data,
       number
     });
-    if (pairs.data.length === 3) {
+
+    if (pairs.data.length === 8) {
       const beams = this.state.pairs.filter(
         pair => pair.pair1.matchId === pair.pair2.id
       );
-      this.setState({ locked: true, beams: beams.length });
+      this.setState({ view: 'matches', beams: beams.length });
       this.props.postBeams(number, this.state);
     }
   };
@@ -77,40 +79,118 @@ class SingleCeremony extends Component {
     window.location.reload();
   };
 
+  viewPairs = () => {
+    this.setState({
+      view: 'matches'
+    });
+  };
+
+  viewBeams = () => {
+    this.setState({
+      view: 'beams'
+    });
+  };
+
   render() {
     const { cast } = this.props;
     const remaining = findRemaining(cast, this.state.pairs);
+    if (this.state.view === 'matchup') {
+      return (
+        <form onSubmit={this.handleSubmit}>
+          <label>{this.state.pair1 && this.state.pair1.name}</label>
+          <label>{this.state.pair2 && this.state.pair2.name}</label>
+          <ul>
+            {remaining.map(
+              member =>
+                member.id !== this.state.pair1.id && (
+                  <li
+                    key={member.key}
+                    onClick={e => this.handleChange(e, member)}
+                    member={member}
+                    value={member.id}
+                  >
+                    {member.name}
+                  </li>
+                )
+            )}
+          </ul>
+          <button type="submit" className="btn btn-primary">
+            Lock In
+          </button>
+        </form>
+      );
+    }
 
-    return (
-      <div className="container">
-        {this.state.pairs.length < cast.length / 2 ? (
-          <form onSubmit={this.handleSubmit}>
-            <label>{this.state.pair1 && this.state.pair1.name}</label>
-            <label>{this.state.pair2 && this.state.pair2.name}</label>
-            <ul>
-              {remaining.map(
-                member =>
-                  member.id !== this.state.pair1.id && (
-                    <li
-                      key={member.key}
-                      onClick={e => this.handleChange(e, member)}
-                      member={member}
-                      value={member.id}
-                    >
-                      {member.name}
-                    </li>
-                  )
-              )}
-            </ul>
-            <button type="submit" className="btn btn-primary">
-              Lock In
-            </button>
-          </form>
-        ) : (
-          'Hello World'
-        )}
-      </div>
-    );
+    if (this.state.view === 'beams') {
+      return (
+        <div className="beamsMatchUp">
+          {this.state.beams}
+          <button type="button" onClick={this.viewPairs}>
+            View Pairs
+          </button>
+          <button type="button" onClick={this.viewBeams}>
+            View Beams
+          </button>
+        </div>
+      );
+    }
+
+    if (this.state.view === 'matches') {
+      return (
+        <div className="finishedMatchUp">
+          {this.state.pairs.map(pair => (
+            <div className="pair">
+              <div className="pair1">{pair.pair1.name}</div>
+              <div className="pair2">{pair.pair2.name}</div>
+            </div>
+          ))}
+
+          <button type="button" onClick={this.viewPairs}>
+            View Pairs
+          </button>
+          <button type="button" onClick={this.viewBeams}>
+            View Beams
+          </button>
+        </div>
+      );
+    }
+    // return (
+    //   <div className="container">
+    //     {this.state.pairs.length < cast.length / 2 ? (
+    //       <form onSubmit={this.handleSubmit}>
+    //         <label>{this.state.pair1 && this.state.pair1.name}</label>
+    //         <label>{this.state.pair2 && this.state.pair2.name}</label>
+    //         <ul>
+    //           {remaining.map(
+    //             member =>
+    //               member.id !== this.state.pair1.id && (
+    //                 <li
+    //                   key={member.key}
+    //                   onClick={e => this.handleChange(e, member)}
+    //                   member={member}
+    //                   value={member.id}
+    //                 >
+    //                   {member.name}
+    //                 </li>
+    //               )
+    //           )}
+    //         </ul>
+    //         <button type="submit" className="btn btn-primary">
+    //           Lock In
+    //         </button>
+    //       </form>
+    //     ) : (
+    //       <div className="finishedMatchUp">
+    //         <button type="button" onClick={this.viewPairs}>
+    //           View Pairs
+    //         </button>
+    //         <button type="button" onClick={this.viewBeams}>
+    //           View Beams
+    //         </button>
+    //       </div>
+    //     )}
+    //   </div>
+    // );
   }
 }
 

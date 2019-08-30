@@ -136,7 +136,7 @@ export const postTruthBoothThunk = (number, pair1, pair2, match) => {
     axios
       .post(`/api/truthbooths/${number}/pairs`, obj)
       .then(({ data }) => dispatch(getTruthBoothAction(data)));
-    axios.put(`/api/truthbooths/${number}`, tbObj);
+    axios.put(`/api/truthbooths/${number}`, obj);
   };
 };
 

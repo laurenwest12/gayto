@@ -49,7 +49,7 @@ const ceremony = (state = [], action) => {
 };
 
 const pairs = (state = [], action) => {
-  switch (action.pairs) {
+  switch (action.type) {
     case GET_PAIRS:
       return action.pairs;
     default:
@@ -58,7 +58,7 @@ const pairs = (state = [], action) => {
 };
 
 const truthBooth = (state = {}, action) => {
-  switch (action.truthBooth) {
+  switch (action.type) {
     case GET_TRUTHBOOTH:
       return action.truthBooth;
     default:

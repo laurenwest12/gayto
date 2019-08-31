@@ -4,9 +4,9 @@ import {
   getCeremonyThunk,
   getCastThunk,
   postPairsThunk,
-  postBeamsThunk
+  postBeamsThunk,
+  getPairsThunk
 } from './store';
-import axios from 'axios';
 
 const shuffle = array => {
   const copy = array.slice();
@@ -24,8 +24,8 @@ const findRemaining = (arr1, arr2) => {
 };
 
 class SingleCeremony extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       number: null,
       pairsLocked: 0,
@@ -33,41 +33,38 @@ class SingleCeremony extends Component {
       beams: null,
       pair1: {},
       pair2: {},
-      view: 'matchup'
+      viewBeams: false
     };
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     const { number } = this.props.match.params;
-    const pairs = await axios.get(`/api/ceremonies/${number}/pairs`);
-
+    this.props.getPairs(number);
+    this.props.getCeremony(number);
     this.setState({
-      pairs: pairs.data,
       number
     });
-
-    if (pairs.data.length === 8) {
-      const beams = this.state.pairs.filter(
-        pair => pair.pair1.matchId === pair.pair2.id
-      );
-      this.setState({ view: 'matches', beams: beams.length });
-      this.props.postBeams(number, this.state);
-    }
   };
 
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
       const { number } = this.props.match.params;
-      const remaining = findRemaining(this.props.cast, this.state.pairs);
+      const remaining = findRemaining(this.props.cast, this.props.pairs);
       const shuffled = shuffle(remaining);
       const current = shuffled[0];
-      console.log(this.state);
-      console.log(this.props.cast);
-      console.log(remaining);
       this.setState({
         number,
         pair1: current
       });
+      if (this.props.pairs.length === 8) {
+        const beams = this.props.pairs.filter(
+          pair => pair.pair1.matchId === pair.pair2.id
+        );
+        this.setState({
+          beams: beams.length
+        });
+        this.props.postBeams(number, this.state);
+      }
     }
   }
 
@@ -83,38 +80,40 @@ class SingleCeremony extends Component {
 
   viewPairs = () => {
     this.setState({
-      view: 'matches'
+      viewBeams: false
     });
   };
 
   viewBeams = () => {
     this.setState({
-      view: 'beams'
+      viewBeams: true
     });
   };
 
   render() {
-    const { cast } = this.props;
-    const remaining = findRemaining(cast, this.state.pairs);
-    if (this.state.view === 'matchup') {
+    const { cast, pairs } = this.props;
+    const remaining = findRemaining(cast, pairs);
+
+    if (this.props.pairs.length !== 8) {
       return (
         <form onSubmit={this.handleSubmit}>
           <label>{this.state.pair1 && this.state.pair1.name}</label>
           <label>{this.state.pair2 && this.state.pair2.name}</label>
           <ul>
-            {remaining.map(
-              member =>
-                member.id !== this.state.pair1.id && (
-                  <li
-                    key={member.key}
-                    onClick={e => this.handleChange(e, member)}
-                    member={member}
-                    value={member.id}
-                  >
-                    {member.name}
-                  </li>
-                )
-            )}
+            {this.state.pair1 &&
+              remaining.map(
+                member =>
+                  member.id !== this.state.pair1.id && (
+                    <li
+                      key={member.key}
+                      onClick={e => this.handleChange(e, member)}
+                      member={member}
+                      value={member.id}
+                    >
+                      {member.name}
+                    </li>
+                  )
+              )}
           </ul>
           <button type="submit" className="btn btn-primary">
             Lock In
@@ -123,10 +122,10 @@ class SingleCeremony extends Component {
       );
     }
 
-    if (this.state.view === 'beams') {
+    if (this.props.pairs.length === 8 && this.state.viewBeams) {
       return (
         <div className="beamsMatchUp">
-          {this.state.beams}
+          {this.props.ceremony.beams}
           <button type="button" onClick={this.viewPairs}>
             View Pairs
           </button>
@@ -137,11 +136,11 @@ class SingleCeremony extends Component {
       );
     }
 
-    if (this.state.view === 'matches') {
+    if (this.props.pairs.length === 8 && !this.state.viewBeams) {
       return (
         <div className="finishedMatchUp">
-          {this.state.pairs.map(pair => (
-            <div className="pair">
+          {this.props.pairs.map(pair => (
+            <div className="pair" key={pair.id}>
               <div className="pair1">{pair.pair1.name}</div>
               <div className="pair2">{pair.pair2.name}</div>
             </div>
@@ -156,49 +155,16 @@ class SingleCeremony extends Component {
         </div>
       );
     }
-    // return (
-    //   <div className="container">
-    //     {this.state.pairs.length < cast.length / 2 ? (
-    //       <form onSubmit={this.handleSubmit}>
-    //         <label>{this.state.pair1 && this.state.pair1.name}</label>
-    //         <label>{this.state.pair2 && this.state.pair2.name}</label>
-    //         <ul>
-    //           {remaining.map(
-    //             member =>
-    //               member.id !== this.state.pair1.id && (
-    //                 <li
-    //                   key={member.key}
-    //                   onClick={e => this.handleChange(e, member)}
-    //                   member={member}
-    //                   value={member.id}
-    //                 >
-    //                   {member.name}
-    //                 </li>
-    //               )
-    //           )}
-    //         </ul>
-    //         <button type="submit" className="btn btn-primary">
-    //           Lock In
-    //         </button>
-    //       </form>
-    //     ) : (
-    //       <div className="finishedMatchUp">
-    //         <button type="button" onClick={this.viewPairs}>
-    //           View Pairs
-    //         </button>
-    //         <button type="button" onClick={this.viewBeams}>
-    //           View Beams
-    //         </button>
-    //       </div>
-    //     )}
-    //   </div>
-    // );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    cast: state.cast
+    cast: state.cast,
+    remaning: findRemaining(state.cast, state.pairs),
+    pairs: state.pairs,
+    beams: state.beams,
+    ceremony: state.ceremony
   };
 };
 
@@ -206,6 +172,7 @@ const mapDispatchToProps = dispatch => {
   return {
     getCeremony: number => dispatch(getCeremonyThunk(number)),
     getCast: () => dispatch(getCastThunk()),
+    getPairs: number => dispatch(getPairsThunk(number)),
     postPair: (number, pair) => dispatch(postPairsThunk(number, pair)),
     postBeams: (number, beams) => dispatch(postBeamsThunk(number, beams))
   };

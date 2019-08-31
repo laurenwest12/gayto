@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getTruthBoothThunk, postTruthBoothThunk } from './store';
-import axios from 'axios';
 
 class SingleTruthBooth extends Component {
   constructor() {
@@ -16,14 +15,21 @@ class SingleTruthBooth extends Component {
 
   componentDidMount = async () => {
     const { number } = this.props.match.params;
-    const truthBooth = await axios.get(`/api/truthbooths/${number}`);
+    this.props.getTruthBooth(number);
+  };
 
-    this.setState({
-      number,
-      match: truthBooth.data.match,
-      pair1: truthBooth.data.pair1,
-      pair2: truthBooth.data.pair2
-    });
+  componentDidUpdate = prevProps => {
+    const { number } = this.props.match.params;
+    const { truthBooth } = this.props;
+
+    if (prevProps !== this.props) {
+      this.setState({
+        number,
+        match: truthBooth.match,
+        pair1: truthBooth.pair1,
+        pair2: truthBooth.pair2
+      });
+    }
   };
 
   handleChange = ({ target }, member) => {
@@ -39,28 +45,29 @@ class SingleTruthBooth extends Component {
   };
 
   handleSubmit = evt => {
-    function randomIntFromInterval(min, max) {
-      return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-    const num = randomIntFromInterval(5, 10) * 1000;
+    //RANDOM NUMBER
+    // function randomIntFromInterval(min, max) {
+    //   return Math.floor(Math.random() * (max - min + 1) + min);
+    // }
+    // const num = randomIntFromInterval(5, 10) * 1000;
 
     evt.preventDefault();
     const { number, pair1, pair2 } = this.state;
+    const { postTruthBooth } = this.props;
 
     let match;
 
     this.state.pair1.matchId === this.state.pair2.id
       ? (match = true)
       : (match = false);
-    this.props.postTruthBooth(number, pair1, pair2, match);
 
     setTimeout(function() {
-      window.location.reload();
-    }, num);
+      postTruthBooth(number, pair1, pair2, match);
+    }, 7000);
   };
 
   render() {
-    const { cast } = this.props;
+    const { cast, truthBooth } = this.props;
 
     if (this.state.match === null) {
       return (
@@ -90,7 +97,7 @@ class SingleTruthBooth extends Component {
     }
 
     if (this.state.match !== null) {
-      if (this.state.match === true) {
+      if (truthBooth.match === true) {
         return (
           <div>
             {this.state.pair1.name}
@@ -99,7 +106,7 @@ class SingleTruthBooth extends Component {
           </div>
         );
       }
-      if (this.state.match === false) {
+      if (truthBooth.match === false) {
         return (
           <div>
             {this.state.pair1.name}

@@ -7,7 +7,7 @@ const syncAndSeed = () => {
       Cast.create({
         id: 1,
         name: 'Alex',
-        imgUrl: 'https://i.imgur.com/lgC9Nv1.jpg'
+        imgUrl: 'https://i.imgur.com/i3X6K4p.jpg'
       }),
       Cast.create({
         id: 2,

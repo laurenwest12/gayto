@@ -35,37 +35,39 @@ class AssignMatches extends Component {
 
     return (
       <div className="container">
-        <form onSubmit={this.handleSubmit}>
-          {cast &&
-            cast.map((member, index) => (
-              <div key={member.id}>
-                {member.name}
+        <div className="assign-matches-container">
+          <form onSubmit={this.handleSubmit}>
+            {cast &&
+              cast.map((member, index) => (
+                <div key={member.id}>
+                  {member.name}
 
-                <div>
-                  <select
-                    className="form-control"
-                    onChange={this.handleChange}
-                    name={index}
-                    index={index}
-                  >
-                    <option value={null}>Select a perfect match</option>
-                    {matches.length &&
-                      matches.map(
-                        match =>
-                          match.id !== member.id && (
-                            <option value={match.id} key={match.name}>
-                              {match.name}
-                            </option>
-                          )
-                      )}
-                  </select>
+                  <div>
+                    <select
+                      className="form-control"
+                      onChange={this.handleChange}
+                      name={index}
+                      index={index}
+                    >
+                      <option value={null}>Select a perfect match</option>
+                      {matches.length &&
+                        matches.map(
+                          match =>
+                            match.id !== member.id && (
+                              <option value={match.id} key={match.name}>
+                                {match.name}
+                              </option>
+                            )
+                        )}
+                    </select>
+                  </div>
                 </div>
-              </div>
-            ))}
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
+              ))}
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </form>
+        </div>
       </div>
     );
   }

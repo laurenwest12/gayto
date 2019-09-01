@@ -153,12 +153,25 @@ class SingleCeremony extends Component {
         <div className="container">
           <div className="beamsMatchUp">
             {this.props.ceremony.beams}
-            <button type="button" onClick={this.viewPairs}>
-              View Pairs
-            </button>
-            <button type="button" onClick={this.viewBeams}>
-              View Beams
-            </button>
+            <div className="matchup-buttons">
+              <button
+                type="button"
+                onClick={this.viewPairs}
+                className="lockedInButton"
+              >
+                View Pairs
+              </button>
+            </div>
+
+            <div className="matchup-buttons">
+              <button
+                type="button"
+                onClick={this.viewBeams}
+                className="lockedInButton"
+              >
+                View Beams
+              </button>
+            </div>
           </div>
         </div>
       );
@@ -169,18 +182,40 @@ class SingleCeremony extends Component {
         <div className="container">
           <div className="finishedMatchUp">
             {this.props.pairs.map(pair => (
-              <div className="pair" key={pair.id}>
-                <div className="pair1">{pair.pair1.name}</div>
-                <div className="pair2">{pair.pair2.name}</div>
+              <div className="remainingPair" key={pair.id}>
+                <div className="remainingMember">
+                  <img src={pair.pair1.imgUrl} className="remainingImage" />
+                  <hr />
+                  {pair.pair1.name}
+                </div>
+
+                <div className="remainingMember">
+                  <img src={pair.pair2.imgUrl} className="remainingImage" />
+                  <hr />
+                  {pair.pair2.name}
+                </div>
               </div>
             ))}
 
-            <button type="button" onClick={this.viewPairs}>
-              View Pairs
-            </button>
-            <button type="button" onClick={this.viewBeams}>
-              View Beams
-            </button>
+            <div className="matchup-buttons">
+              <button
+                type="button"
+                onClick={this.viewPairs}
+                className="lockedInButton"
+              >
+                View Pairs
+              </button>
+            </div>
+
+            <div className="matchup-buttons">
+              <button
+                type="button"
+                onClick={this.viewBeams}
+                className="lockedInButton"
+              >
+                View Beams
+              </button>
+            </div>
           </div>
         </div>
       );

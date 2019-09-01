@@ -157,3 +157,29 @@ hr {
   text-align: center;
   background: #00bbef;
 }
+
+.finishedMatchUp {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.remainingPair {
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 30px;
+}
+
+.matchup-buttons {
+  padding: 30px;
+}
+
+.beamsMatchUp {
+  position: fixed;
+  left: 35vw;
+  font-size: 72px;
+  font-weight: bold;
+  text-align: center;
+}

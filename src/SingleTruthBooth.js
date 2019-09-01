@@ -72,26 +72,54 @@ class SingleTruthBooth extends Component {
     if (this.state.match === null) {
       return (
         <div className="container">
-          <form onSubmit={this.handleSubmit}>
-            <label>{this.state.pair1 && this.state.pair1.name}</label>
-            <label>{this.state.pair2 && this.state.pair2.name}</label>
-            <ul>
-              {cast.length &&
-                cast.map(member => (
-                  <li
-                    key={member.key}
-                    onClick={e => this.handleChange(e, member)}
-                    member={member}
-                    value={member.id}
-                  >
-                    {member.name}
-                  </li>
-                ))}
-            </ul>
-            <button type="submit" className="btn btn-primary">
-              Lock In
-            </button>
-          </form>
+          <div className="matchUpContainer">
+            <form onSubmit={this.handleSubmit}>
+              <div className="matchUpPair">
+                <div className="singlePair">
+                  {this.state.pair1 && (
+                    <img className="pairImage" src={this.state.pair1.imgUrl} />
+                  )}
+                  <hr />
+                  <label>{this.state.pair1 && this.state.pair1.name}</label>
+                </div>
+
+                <div className="singlePair">
+                  {this.state.pair2 && (
+                    <img className="pairImage" src={this.state.pair2.imgUrl} />
+                  )}
+                  <hr />
+                  <label>{this.state.pair2 && this.state.pair2.name}</label>
+                </div>
+              </div>
+
+              {this.state.pair2 && (
+                <div className="button-container">
+                  <button type="submit" className="lockedInButton">
+                    lock in
+                  </button>
+                </div>
+              )}
+
+              <label />
+              <label />
+              <div className="remainingContainer">
+                {cast.length &&
+                  cast.map(member => (
+                    <div
+                      key={member.key}
+                      onClick={e => this.handleChange(e, member)}
+                      member={member}
+                      value={member.id}
+                      className="remainingMember"
+                    >
+                      <img src={member.imgUrl} className="remainingImage" />
+                      <hr />
+                      {member.name}
+                    </div>
+                  ))}
+              </div>
+            </form>
+          </div>
         </div>
       );
     }

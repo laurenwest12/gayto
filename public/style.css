@@ -1,4 +1,8 @@
-.cardHeader {
+body {
+  font-family: 'Lato', sans-serif;
+}
+
+/* .cardHeader {
   border: solid;
   height: 35px;
 }
@@ -23,9 +27,133 @@
   margin: 25px;
   align-content: stretch;
   flex-grow: 1;
-}
+} */
 
 .container {
   display: flex;
+  margin-top: 50px;
+  padding-left: 0px;
+}
+
+.navbar-nav li {
+  padding: 0 15px;
+  color: black;
+  top: 0;
+  font-family: 'Lato', sans-serif;
+  font-weight: bold;
+}
+
+nav {
+  background: #232323;
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+
+.navbar-nav {
+  flex-direction: row;
+}
+
+.nav-link {
+  flex-direction: row;
+}
+
+li {
+  list-style-type: none;
+}
+
+/*All Match Ups*/
+.matchUpImage {
+  width: 375px;
+  height: 210px;
+}
+
+.singleMatchUp {
+  font-weight: bold;
+}
+
+a {
+  color: #232323;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #232323;
+  text-decoration: none;
+}
+
+.allMatchUpsList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  right: 0;
   width: 100vw;
+}
+
+.singleMatchUp {
+  padding: 15px;
+}
+
+/*Single Match Up*/
+
+.matchUpContainer {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+}
+
+.pairImage {
+  height: 275px;
+  width: 275px;
+  border-radius: 50%;
+}
+
+.singlePair {
+  padding: 15px;
+}
+
+.matchUpPair {
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.remainingContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.remainingMember {
+  font-weight: bold;
+  padding: 15px;
+}
+
+.remainingImage {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+}
+
+hr {
+  border: 0.5px solid #232323;
+}
+
+.button-container {
+  text-align: center;
+}
+
+.lockedInButton {
+  padding: 0.3em;
+  width: 300px;
+  border-radius: 3%;
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
+  text-align: center;
+  background: #00bbef;
 }

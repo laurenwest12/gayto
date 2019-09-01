@@ -96,62 +96,92 @@ class SingleCeremony extends Component {
 
     if (this.props.pairs.length !== 8) {
       return (
-        <form onSubmit={this.handleSubmit}>
-          <label>{this.state.pair1 && this.state.pair1.name}</label>
-          <label>{this.state.pair2 && this.state.pair2.name}</label>
-          <ul>
-            {this.state.pair1 &&
-              remaining.map(
-                member =>
-                  member.id !== this.state.pair1.id && (
-                    <li
-                      key={member.key}
-                      onClick={e => this.handleChange(e, member)}
-                      member={member}
-                      value={member.id}
-                    >
-                      {member.name}
-                    </li>
-                  )
-              )}
-          </ul>
-          <button type="submit" className="btn btn-primary">
-            Lock In
-          </button>
-        </form>
+        <div className="container">
+          <div className="matchUpContainer">
+            <form onSubmit={this.handleSubmit}>
+              <div className="matchUpPair">
+                <div className="singlePair">
+                  <img
+                    className="pairImage"
+                    src={this.state.pair1 && this.state.pair1.imgUrl}
+                  />
+                  <hr />
+                  <label>{this.state.pair1 && this.state.pair1.name}</label>
+                </div>
+                <div className="singlePair">
+                  {this.state.pair2.id && (
+                    <img className="pairImage" src={this.state.pair2.imgUrl} />
+                  )}
+                  <hr />
+                  <label>{this.state.pair2 && this.state.pair2.name}</label>
+                </div>
+              </div>
+
+              <div className="button-container">
+                <button type="submit" className="lockedInButton">
+                  lock in
+                </button>
+              </div>
+
+              <div className="remainingContainer">
+                {this.state.pair1 &&
+                  remaining.map(
+                    member =>
+                      member.id !== this.state.pair1.id && (
+                        <div
+                          key={member.key}
+                          onClick={e => this.handleChange(e, member)}
+                          member={member}
+                          value={member.id}
+                          className="remainingMember"
+                        >
+                          <img src={member.imgUrl} className="remainingImage" />
+                          <hr />
+                          {member.name}
+                        </div>
+                      )
+                  )}
+              </div>
+            </form>
+          </div>
+        </div>
       );
     }
 
     if (this.props.pairs.length === 8 && this.state.viewBeams) {
       return (
-        <div className="beamsMatchUp">
-          {this.props.ceremony.beams}
-          <button type="button" onClick={this.viewPairs}>
-            View Pairs
-          </button>
-          <button type="button" onClick={this.viewBeams}>
-            View Beams
-          </button>
+        <div className="container">
+          <div className="beamsMatchUp">
+            {this.props.ceremony.beams}
+            <button type="button" onClick={this.viewPairs}>
+              View Pairs
+            </button>
+            <button type="button" onClick={this.viewBeams}>
+              View Beams
+            </button>
+          </div>
         </div>
       );
     }
 
     if (this.props.pairs.length === 8 && !this.state.viewBeams) {
       return (
-        <div className="finishedMatchUp">
-          {this.props.pairs.map(pair => (
-            <div className="pair" key={pair.id}>
-              <div className="pair1">{pair.pair1.name}</div>
-              <div className="pair2">{pair.pair2.name}</div>
-            </div>
-          ))}
+        <div className="container">
+          <div className="finishedMatchUp">
+            {this.props.pairs.map(pair => (
+              <div className="pair" key={pair.id}>
+                <div className="pair1">{pair.pair1.name}</div>
+                <div className="pair2">{pair.pair2.name}</div>
+              </div>
+            ))}
 
-          <button type="button" onClick={this.viewPairs}>
-            View Pairs
-          </button>
-          <button type="button" onClick={this.viewBeams}>
-            View Beams
-          </button>
+            <button type="button" onClick={this.viewPairs}>
+              View Pairs
+            </button>
+            <button type="button" onClick={this.viewBeams}>
+              View Beams
+            </button>
+          </div>
         </div>
       );
     }

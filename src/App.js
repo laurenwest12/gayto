@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { HashRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import Nav from './Nav';
 import AssignMatches from './AssignMatches';
 import AllCeremonies from './AllCeremonies';
 import SingleCeremony from './SingleCeremony';
@@ -23,6 +24,11 @@ class App extends Component {
   render() {
     return (
       <HashRouter>
+        <Route
+          render={({ location, history }) => (
+            <Nav history={history} location={location} />
+          )}
+        />
         <Route exact path="/matches" component={AssignMatches} />
         <Route exact path="/ceremonies" component={AllCeremonies} />
         <Route exact path="/ceremonies/:number" component={SingleCeremony} />

@@ -126,20 +126,26 @@ class SingleTruthBooth extends Component {
 
     if (this.state.match !== null) {
       if (truthBooth.match === true) {
+        const { pair1, pair2 } = this.state;
         return (
-          <div>
-            {this.state.pair1.name}
-            {this.state.pair2.name}
-            Perfect Match
+          <div className="matchResultContainer">
+            <div className="matchResultImageContainer">
+              <img src={pair1.imgUrl} className="matchResultImage" />
+              <img src={pair2.imgUrl} className="matchResultImage" />
+            </div>
+            <div className="matchResult">PERFECT MATCH!</div>
           </div>
         );
       }
       if (truthBooth.match === false) {
+        const { pair1, pair2 } = this.state;
         return (
-          <div>
-            {this.state.pair1.name}
-            {this.state.pair2.name}
-            No Match
+          <div className="matchResultContainer">
+            <div className="matchResultImageContainer">
+              <img src={pair1.imgUrl} className="matchResultImage" />
+              <img src={pair2.imgUrl} className="matchResultImage" />
+            </div>
+            <div className="noMatchResult">NO MATCH!</div>
           </div>
         );
       }

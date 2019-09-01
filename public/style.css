@@ -186,6 +186,11 @@ hr {
 }
 
 /*Truth Booth Results*/
+
+.matchResultContainer {
+  width: 100vw;
+  height: 100vh;
+}
 .matchResult {
   line-height: 100px;
   position: absolute;
@@ -193,7 +198,7 @@ hr {
   text-align: center;
   background: #eccb68;
   color: white;
-  width: 1000px;
+  width: 100vw;
   height: 100px;
   vertical-align: middle;
   font-size: 68px;
@@ -201,8 +206,8 @@ hr {
 }
 
 .matchResultImage {
-  height: 500px;
-  width: 500px;
+  height: auto;
+  width: 50%;
 }
 
 .noMatchResult {
@@ -212,7 +217,7 @@ hr {
   text-align: center;
   background: #232323;
   color: white;
-  width: 1000px;
+  width: 100vw;
   height: 100px;
   vertical-align: middle;
   font-size: 68px;

@@ -13,7 +13,7 @@ class SingleTruthBooth extends Component {
     };
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     const { number } = this.props.match.params;
     this.props.getTruthBooth(number);
   };

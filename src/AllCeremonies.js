@@ -9,6 +9,19 @@ export default class AllCeremonies extends Component {
     };
   }
 
+  images = {
+    1: 'http://mtv.mtvnimages.com/Asset-Production/Are-You-The-One/season-8/806/images/EP_RUO_806_Highlight_A_565c51a8_7b45_46ae_9cf3_43e49a51165f.jpg?quality=0.85&width=1082&height=610&crop=true',
+    2: 'http://community.ew.com/wp-content/uploads/2016/06/Are-You-The-One-S4-Matchup-Ceremony_EW-Community_She-Dont-Want-You.jpg',
+    3: 'https://d24bnpykhxwj9p.cloudfront.net/s3file/s3fs-public/users1/2017-01/Thu/Screen%20Shot%202017-01-19%20at%204.07.15%20PM.png',
+    4: 'https://d24bnpykhxwj9p.cloudfront.net/s3file/s3fs-public/users1/2017-09/Fri/matchup.png',
+    5: 'http://mtv.com/news/wp-content/uploads/rc/2014/01/ListGroup.jpg',
+    6: 'http://mtv-intl.mtvnimages.com/uri/mgid:arc:content:mtvasia.com:0ea7ad38-63a1-11e5-8ff7-0026b9414f30?ep=mtvasia.com&stage=live&format=jpg&quality=0.8&&&quality=0.85&width=1029&height=581&crop=true',
+    7: 'http://community.ew.com/wp-content/uploads/2014/10/screen-shot-2014-10-13-at-11-46-08-pm.png',
+    8: 'https://d24bnpykhxwj9p.cloudfront.net/s3file/s3fs-public/users1/2017-01/Fri/Screen%20Shot%202017-01-27%20at%2011.32.15%20AM.png',
+    9: 'https://d24bnpykhxwj9p.cloudfront.net/s3file/s3fs-public/users1/2017-10/Mon/Screen%20Shot%202017-10-23%20at%201.26.06%20PM.png',
+    10: 'http://mtv.mtvnimages.com/Asset-Production/Are-You-The-One/season-8/802/HD_RUO_801_802_A9b7fb99a_8eb0_4fa5_a729_076c428855ca.jpg'
+  };
+
   render() {
     const { matchUps } = this.state;
     return (
@@ -17,10 +30,7 @@ export default class AllCeremonies extends Component {
           {matchUps.map(num => (
             <Link to={`/ceremonies/${num}`}>
               <div key={num} className="singleMatchUp">
-                <img
-                  className="matchUpImage"
-                  src="data:image/png;base64,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"
-                />
+                <img className="matchUpImage" src={this.images[num]} />
                 <br />
                 Match Up {num}
               </div>

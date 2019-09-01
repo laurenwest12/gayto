@@ -4,22 +4,86 @@ const db = require('./db');
 const syncAndSeed = () => {
   return db.sync({ force: true }).then(() => {
     return Promise.all([
-      Cast.create({ id: 1, name: 'Alex' }),
-      Cast.create({ id: 2, name: 'Annie' }),
-      Cast.create({ id: 3, name: 'Brandon' }),
-      Cast.create({ id: 4, name: 'Conor' }),
-      Cast.create({ id: 5, name: 'Dan' }),
-      Cast.create({ id: 6, name: 'Doug' }),
-      Cast.create({ id: 7, name: 'Eli' }),
-      Cast.create({ id: 8, name: 'Emily' }),
-      Cast.create({ id: 9, name: 'Irene' }),
-      Cast.create({ id: 10, name: 'John' }),
-      Cast.create({ id: 11, name: 'Julie' }),
-      Cast.create({ id: 12, name: 'Kailee' }),
-      Cast.create({ id: 13, name: 'Lauren' }),
-      Cast.create({ id: 14, name: 'Lia' }),
-      Cast.create({ id: 15, name: 'Shannon' }),
-      Cast.create({ id: 16, name: 'Travis' }),
+      Cast.create({
+        id: 1,
+        name: 'Alex',
+        imgUrl: 'https://i.imgur.com/lgC9Nv1.jpg'
+      }),
+      Cast.create({
+        id: 2,
+        name: 'Annie',
+        imgUrl: 'https://i.imgur.com/tF8a6P3.jpg'
+      }),
+      Cast.create({
+        id: 3,
+        name: 'Barbara',
+        imgUrl: 'https://i.imgur.com/k8mDplm.jpg'
+      }),
+      Cast.create({
+        id: 4,
+        name: 'Brandon',
+        imgUrl: 'https://i.imgur.com/WN7KGW1.jpg'
+      }),
+      Cast.create({
+        id: 5,
+        name: 'Conor',
+        imgUrl: 'https://i.imgur.com/qwJHctx.jpg'
+      }),
+      Cast.create({
+        id: 6,
+        name: 'Dan',
+        imgUrl: 'https://i.imgur.com/tAt30E0.jpg'
+      }),
+      Cast.create({
+        id: 7,
+        name: 'Doug',
+        imgUrl: 'https://i.imgur.com/DTD95Gx.jpg'
+      }),
+      Cast.create({
+        id: 8,
+        name: 'Eli',
+        imgUrl: 'https://i.imgur.com/EdFpQRi.jpg'
+      }),
+      Cast.create({
+        id: 9,
+        name: 'Emily',
+        imgUrl: 'https://i.imgur.com/lsXhfwY.jpg'
+      }),
+      Cast.create({
+        id: 10,
+        name: 'Irene',
+        imgUrl: 'https://i.imgur.com/OBvssna.jpg'
+      }),
+      Cast.create({
+        id: 11,
+        name: 'John',
+        imgUrl: 'https://i.imgur.com/f6G11MK.jpg'
+      }),
+      Cast.create({
+        id: 12,
+        name: 'Julie',
+        imgUrl: 'https://i.imgur.com/ZP4Bq57.jpg'
+      }),
+      Cast.create({
+        id: 13,
+        name: 'Kailee',
+        imgUrl: 'https://i.imgur.com/Isv7EaS.jpg'
+      }),
+      Cast.create({
+        id: 14,
+        name: 'Lauren',
+        imgUrl: 'https://i.imgur.com/Bn0TrZO.jpg'
+      }),
+      Cast.create({
+        id: 15,
+        name: 'Lia',
+        imgUrl: 'https://i.imgur.com/9OBwmRF.jpg'
+      }),
+      Cast.create({
+        id: 16,
+        name: 'Travis',
+        imgUrl: 'https://i.imgur.com/h7OMVul.jpg'
+      }),
       Ceremony.create({ id: 1, number: 1 }),
       Ceremony.create({ id: 2, number: 2 }),
       Ceremony.create({ id: 3, number: 3 }),

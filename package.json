@@ -9,7 +9,7 @@
     "babel-loader": "^7.1.5",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "pg": "^7.12.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.3",
